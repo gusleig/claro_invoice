@@ -15,7 +15,7 @@ from dotenv import load_dotenv
 import time
 from functools import wraps
 
-# Load environment variables
+
 load_dotenv()
 
 
@@ -173,9 +173,6 @@ class ClaroInvoiceScraper:
             login_button = self.driver.find_element(By.CLASS_NAME, "GifButtonPtr")
             login_button.click()
 
-            # Wait for redirect and check if successful
-            # self.wait.until(EC.url_to_be("https://contaonline.claro.com.br/webbow/login/bemVindoPJ.do"))
-
             self.logger.info(f"Login sent: {self.driver.current_url}")
 
             # Wait for the new window to open and switch to it
@@ -297,20 +294,11 @@ class ClaroInvoiceScraper:
         driver.execute_script("arguments[0].scrollIntoView(true);", element)
         # Wait a short time for any animations to complete
         time.sleep(0.5)
-        # Wait for element to be clickable
-        # button = WebDriverWait(driver, 10).until(
-        #     EC.element_to_be_clickable(button_locator)
-        # )
-        # Click the element
-        # button.click()
-        # return True
 
     def process_accounts(self):
         """Process all accounts in the select box"""
         try:
             account_select = Select(self.wait.until(EC.presence_of_element_located((By.NAME, "BAN"))))
-
-            accounts = account_select.options
 
             account_list = [option.get_attribute('value') for option in account_select.options]
 
