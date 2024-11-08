@@ -317,17 +317,20 @@ class ClaroInvoiceScraper:
                     self.use_element_safely(self.driver, (By.NAME, "billDueDate"))
 
                     invoice_date_select = Select(self.wait.until(EC.presence_of_element_located((By.NAME, "billDueDate"))))
+                    invoice_list = [option.get_attribute('value') for option in invoice_date_select.options]
+                    for invoice in invoice_list:
 
-                    for invoice in invoice_date_select.options:
+                        self.logger.info(f"Processing invoice: {invoice}")
 
-                        self.logger.info(f"Processing invoice: {invoice.text}")
+                        invoice_date_select = Select(
+                            self.wait.until(EC.presence_of_element_located((By.NAME, "billDueDate"))))
+                        invoice_date_select.select_by_value(invoice)
 
-                        invoice.click()
+                        # invoice_date_value = invoice.get_attribute("value")
 
-                        invoice_date_value = invoice.get_attribute("value")
+                        if invoice:
 
-                        if invoice_date_value:
-                            invoice_dt, invoice_ref = extract_and_parse_dates(invoice_date_value)
+                            invoice_dt, invoice_ref = extract_and_parse_dates(invoice)
 
                             self.logger.info(f"Selecting invoice: {account_number} - {invoice_dt}")
 
