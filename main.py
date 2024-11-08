@@ -303,9 +303,7 @@ class ClaroInvoiceScraper:
             account_list = [option.get_attribute('value') for option in account_select.options]
 
             for account_number in account_list:
-                # account_number = account.get_attribute("value")
 
-                # account.click()
                 select = Select(self.wait.until(EC.presence_of_element_located((By.NAME, "BAN"))))
                 select.select_by_value(account_number)
                 time.sleep(1)
@@ -325,8 +323,6 @@ class ClaroInvoiceScraper:
                         invoice_date_select = Select(
                             self.wait.until(EC.presence_of_element_located((By.NAME, "billDueDate"))))
                         invoice_date_select.select_by_value(invoice)
-
-                        # invoice_date_value = invoice.get_attribute("value")
 
                         if invoice:
 
